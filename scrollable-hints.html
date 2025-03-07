@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrollable hints</title>
+</head>
+
+<body>
+  <main>
+    <p class="horizontal-scroll-hint">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+
+    <p class="horizontal-scroll-hint" style="--background-color: hotpink">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+
+    <p class="horizontal-scroll-hint" style="color: blue">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+
+    <p class="horizontal-scroll-hint"
+      style="--background-color: hotpink; color: blue">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+
+    <p class="horizontal-scroll-hint"
+      style="--background-color: black; color: white">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+
+    <p class="horizontal-scroll-hint">
+      Lorem Ipsum
+    </p>
+
+    <p class="horizontal-scroll-hint tiny-text">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+
+    <p class="horizontal-scroll-hint huge-text">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+      placerat quis arcu in mattis. Aenean non
+      risus purus. Donec sit.
+    </p>
+  </main>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    p {
+      max-width: 30ch;
+      text-wrap: nowrap;
+      outline: 1px solid red;
+      padding: 0.5ch 1ch;
+      overflow-y: scroll;
+      margin-block-end: 2rem;
+
+      &.huge-text {
+        font-size: 6em;
+      }
+
+      &.tiny-text {
+        font-size: 0.5em;
+      }
+    }
+
+    .horizontal-scroll-hint {
+      /* 
+        Sources:
+        - https://lea.verou.me/blog/2012/04/background-attachment-local/
+        - https://adrianroselli.com/2020/01/fixed-table-headers.html
+        - https://piccalil.li/blog/styling-tables-the-modern-css-way/
+      */
+
+      /* Customization from consumers */
+      --background-color: white;
+      --hint-color: hsla(from currentColor h s l / 50%);
+
+      /* Internal settings */
+      --_hint-width: 1em;
+      --_hint-height: 8ch;
+
+      background-color: var(--background-color);
+
+      /*> Hint drawing */
+      background-image:
+        /* shadow masks */
+        linear-gradient(to right,
+          hsla(from var(--background-color) h s l / 1),
+          hsla(from var(--background-color) h s l / 0)),
+        linear-gradient(to left,
+          hsla(from var(--background-color) h s l / 1),
+          hsla(from var(--background-color) h s l / 0)),
+
+        /* shadows */
+        radial-gradient(farthest-side at 0% 50%, var(--hint-color), transparent),
+        radial-gradient(farthest-side at 100% 50%, var(--hint-color), transparent);
+      background-attachment:
+        local,
+        local,
+        scroll,
+        scroll;
+      background-repeat: no-repeat;
+      background-size:
+        calc(10 * var(--_hint-width)) var(--_hint-height),
+        calc(10 * var(--_hint-width)) var(--_hint-height),
+        var(--_hint-width) var(--_hint-height),
+        var(--_hint-width) var(--_hint-height);
+      background-position:
+        left,
+        right,
+        left,
+        right;
+      /*< Hint drawing */
+    }
+  </style>
+</body>
+
+</html>
